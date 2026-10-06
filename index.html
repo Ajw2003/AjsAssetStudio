@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'">
+  <title>Ajs Asset Studio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section id="home" class="screen">
+    <h1>Ajs Asset Studio</h1>
+    <button id="new-concept" class="big">+ New concept</button>
+    <p class="ai-status"><span class="dot"></span><span class="ai-text">Checking the AI…</span> <button class="link ai-check">Check again</button></p>
+    <h2 id="recent-title" hidden>Recent</h2>
+    <div id="recent" class="recent"></div>
+  </section>
+
+  <section id="work" class="screen" hidden>
+    <header>
+      <button id="go-home" class="link">← Home</button>
+      <ol class="steps">
+        <li data-step="sketch">1 Sketch</li>
+        <li data-step="describe">2 Describe</li>
+        <li data-step="pick">3 Pick</li>
+        <li data-step="save">4 Save</li>
+      </ol>
+      <span id="saved" class="saved">Saved</span>
+    </header>
+
+    <main>
+      <div class="stage">
+        <canvas id="canvas" width="1024" height="1024"></canvas>
+        <div id="results" class="results" hidden></div>
+        <img id="final" class="final" alt="Your chosen concept" hidden>
+      </div>
+
+      <aside>
+        <div class="panel" data-panel="sketch">
+          <h2>Draw the rough shape</h2>
+          <p>Wobbly is fine. Lines get smoothed for you. Hold <kbd>Shift</kbd> for a straight line.</p>
+          <div class="row" role="group" aria-label="Tool">
+            <button class="tool on" data-tool="pen">Pen</button>
+            <button class="tool" data-tool="eraser">Eraser</button>
+          </div>
+          <div class="row" role="group" aria-label="Size">
+            <button class="size" data-size="6">Thin</button>
+            <button class="size on" data-size="14">Medium</button>
+            <button class="size" data-size="40">Thick</button>
+          </div>
+          <div class="row">
+            <button id="undo">Undo</button>
+            <button id="clear">Clear</button>
+          </div>
+          <button class="big next" data-go="describe">Next: describe it →</button>
+        </div>
+
+        <div class="panel" data-panel="describe" hidden>
+          <h2>What is it?</h2>
+          <p>A few words is enough.</p>
+          <textarea id="prompt" rows="3" placeholder="rusty sci-fi crate"></textarea>
+          <div class="row examples">
+            <button class="example">rusty sci-fi crate</button>
+            <button class="example">wooden fantasy shield</button>
+            <button class="example">cute robot companion</button>
+          </div>
+          <p>Kind of thing:</p>
+          <div class="row" role="group" aria-label="Style">
+            <button class="style on" data-style="prop">Prop</button>
+            <button class="style" data-style="character">Character</button>
+            <button class="style" data-style="environment">Place</button>
+          </div>
+          <p class="ai-status"><span class="dot"></span><span class="ai-text">Checking the AI…</span> <button class="link ai-check">Check again</button></p>
+          <button id="generate" class="big">Make 4 concepts →</button>
+          <button class="link" data-go="sketch">← Back to sketch</button>
+        </div>
+
+        <div class="panel" data-panel="pick" hidden>
+          <h2>Pick your favourite</h2>
+          <p id="pick-hint">Click the one you like best.</p>
+          <button id="again">Try again</button>
+          <button class="big next" data-go="save" id="to-save" disabled>Next: save it →</button>
+          <button class="link" data-go="sketch">← Change the sketch</button>
+        </div>
+
+        <div class="panel" data-panel="save" hidden>
+          <h2>Done!</h2>
+          <p>Your work is already saved. Export a picture to use it elsewhere.</p>
+          <button id="export" class="big">Export PNG</button>
+          <p id="exported" class="note"></p>
+          <button class="link" data-go="pick">← Pick a different one</button>
+          <button id="another">Start a new concept</button>
+        </div>
+      </aside>
+    </main>
+  </section>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
