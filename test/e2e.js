@@ -13,7 +13,9 @@ fs.mkdirSync(shots, { recursive: true });
 const home = fs.mkdtempSync(path.join(os.tmpdir(), 'studio-'));
 
 async function launch() {
-  const app = await electron.launch({ args: [path.join(__dirname, '..'), '--no-sandbox'], env: { ...process.env, ASSET_STUDIO_HOME: home } });
+  // APP_EXE runs a packaged build instead of the source folder.
+  const target = process.env.APP_EXE ? { executablePath: process.env.APP_EXE, args: ['--no-sandbox'] } : { args: [path.join(__dirname, '..'), '--no-sandbox'] };
+  const app = await electron.launch({ ...target, env: { ...process.env, ASSET_STUDIO_HOME: home } });
   const page = await app.firstWindow();
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));

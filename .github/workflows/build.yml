@@ -1,0 +1,43 @@
+# Builds the Windows installer, tests the packaged app on Windows, and on
+# every merge to main publishes the installer as a GitHub Release.
+name: Build Windows installer
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run dist
+      - name: Test the packaged app end to end
+        run: npm run e2e
+        env:
+          APP_EXE: ${{ github.workspace }}\dist\win-unpacked\Ajs Asset Studio.exe
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: installer-and-screenshots
+          path: |
+            dist/*Setup*.exe
+            test/screenshots/
+      - name: Publish release
+        if: github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $exe = (Get-Item "dist/*Setup*.exe").FullName
+          gh release create "build-${{ github.run_number }}" "$exe" --title "Ajs Asset Studio (build ${{ github.run_number }})" --notes "Download the Setup .exe below and double-click it." --latest

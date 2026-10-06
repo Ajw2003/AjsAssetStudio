@@ -3,6 +3,8 @@
 Turn a rough scribble into game-asset concept art, one step at a time:
 **Sketch → Describe → Pick → Save.** Everything autosaves.
 
+**Install:** open [Releases](../../releases/latest), download the `Setup .exe`, double-click it.
+
 The AI runs on your own PC through [ComfyUI](https://www.comfy.org/). The app finds it by itself
 on port 8000 (ComfyUI Desktop) or 8188 (manual install) and picks the installed SDXL model and
 scribble ControlNet, so you never type file names.

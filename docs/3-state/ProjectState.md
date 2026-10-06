@@ -15,5 +15,5 @@ Evidence: `npm test` (3 passing) and `npm run e2e` (full flow plus relaunch) bot
 
 ## Not yet verified
 
-- Never run on Windows, and never against a real ComfyUI with real models.
-- No installer yet; running needs Node.js.
+- Never run against a real ComfyUI with real models.
+- Windows installer: `.github/workflows/build.yml` builds it on a Windows machine, runs `npm run e2e` against the packaged app (`APP_EXE`), and publishes a GitHub Release on each merge to main. Check the latest Actions run for whether it passed.
